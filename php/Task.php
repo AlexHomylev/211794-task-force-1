@@ -78,7 +78,7 @@ class Task
      * Получаем карту статусов.
      * @return string[]
      */
-    private function getStatusMap() {
+    private static function getStatusMap() {
         return [
             self::STATUS_NEW => 'Новое',
             self::STATUS_WORK => 'В работе',
@@ -92,7 +92,7 @@ class Task
      * Получаем карту действий.
      * @return string[]
      */
-    private function getActionMap() {
+    private static function getActionMap() {
         return [
             self::ACTION_ABANDON => 'Откликнуться',
             self::ACTION_CANCEL => 'Отменить',
