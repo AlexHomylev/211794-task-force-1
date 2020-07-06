@@ -23,6 +23,22 @@ class Task
     public $id_customer;
     public $current_status;
 
+    // Карты
+    public $statusMap = [
+        self::STATUS_NEW => 'Новое',
+        self::STATUS_WORK => 'В работе',
+        self::STATUS_CANCELED => 'Отменено',
+        self::STATUS_PERFORMED => 'Выполнено',
+        self::STATUS_FAILED => 'Провалено'
+    ];
+
+    public $actionMap = [
+        self::ACTION_ABANDON => 'Откликнуться',
+        self::ACTION_CANCEL => 'Отменить',
+        self::ACTION_COMPLETED => 'Выполнено',
+        self::ACTION_RESPOND => 'Отказаться',
+    ];
+
     public function __construct($id_executor, $id_customer, $current_status)
     {
         $this->id_executor = $id_executor;
@@ -33,48 +49,61 @@ class Task
     /**
      * Получаем следующий статус после выполнения указанного действия.
      * @param $action
+     * @return string
+     * @throws ErrorException
      */
     public function getNextStatus($action) {
-
+        switch ($action) {
+            case self::ACTION_ABANDON;
+                return self::STATUS_WORK;
+            case self::ACTION_CANCEL;
+                return self::STATUS_CANCELED;
+            case self::ACTION_COMPLETED;
+                return self::STATUS_PERFORMED;
+            case self::ACTION_RESPOND;
+                return self::STATUS_FAILED;
+            default;
+                throw new ErrorException('Nonexistent action', 422);
+        }
     }
 
     /**
      * Получаем доступные действия для указанного статуса.
      * @param $status
+     * @return string[]|null
+     * @throws ErrorException
      */
     public function getAvailableActions($status) {
-
+        switch ($status) {
+            case self::STATUS_NEW;
+                return [self::ACTION_ABANDON, self::ACTION_CANCEL];
+            case self::STATUS_WORK;
+                return [self::ACTION_COMPLETED, self::ACTION_RESPOND];
+            case self::STATUS_CANCELED;
+                return null;
+            case self::STATUS_PERFORMED;
+                return null;
+            case self::STATUS_FAILED;
+                return null;
+            default;
+                throw new ErrorException('Nonexistent status', 422);
+        }
     }
 
     /**
      * Получаем карту статусов.
-     *
+     * @return string[]
      */
     private function getStatusMap() {
-        $statusMap = [
-            self::STATUS_NEW => 'Новое',
-            self::STATUS_WORK => 'В работе',
-            self::STATUS_CANCELED => 'Отменено',
-            self::STATUS_PERFORMED => 'Выполнено',
-            self::STATUS_FAILED => 'Провалено'
-        ];
-
-        return $statusMap;
+        return $this->statusMap;
     }
 
     /**
      * Получаем карту действий.
-     *
+     * @return string[]
      */
     private function getActionMap() {
-        $actionMap = [
-          self::ACTION_ABANDON => 'Откликнуться',
-          self::ACTION_COMPLETED => 'Выполнено',
-          self::ACTION_RESPOND => 'Отказаться',
-          self::ACTION_CANCEL => 'Отменить'
-        ];
-
-        return $actionMap;
+        return $this->actionMap;
     }
 
 }
