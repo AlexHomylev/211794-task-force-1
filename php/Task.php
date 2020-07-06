@@ -23,22 +23,6 @@ class Task
     public $id_customer;
     public $current_status;
 
-    // Карты
-    public $statusMap = [
-        self::STATUS_NEW => 'Новое',
-        self::STATUS_WORK => 'В работе',
-        self::STATUS_CANCELED => 'Отменено',
-        self::STATUS_PERFORMED => 'Выполнено',
-        self::STATUS_FAILED => 'Провалено'
-    ];
-
-    public $actionMap = [
-        self::ACTION_ABANDON => 'Откликнуться',
-        self::ACTION_CANCEL => 'Отменить',
-        self::ACTION_COMPLETED => 'Выполнено',
-        self::ACTION_RESPOND => 'Отказаться',
-    ];
-
     public function __construct($id_executor, $id_customer, $current_status)
     {
         $this->id_executor = $id_executor;
@@ -95,7 +79,13 @@ class Task
      * @return string[]
      */
     private function getStatusMap() {
-        return $this->statusMap;
+        return [
+            self::STATUS_NEW => 'Новое',
+            self::STATUS_WORK => 'В работе',
+            self::STATUS_CANCELED => 'Отменено',
+            self::STATUS_PERFORMED => 'Выполнено',
+            self::STATUS_FAILED => 'Провалено'
+        ];
     }
 
     /**
@@ -103,7 +93,12 @@ class Task
      * @return string[]
      */
     private function getActionMap() {
-        return $this->actionMap;
+        return [
+            self::ACTION_ABANDON => 'Откликнуться',
+            self::ACTION_CANCEL => 'Отменить',
+            self::ACTION_COMPLETED => 'Выполнено',
+            self::ACTION_RESPOND => 'Отказаться',
+        ];
     }
 
 }
