@@ -9,5 +9,7 @@
             "email": "homylev2011@yandex.ru"
         }
     ],
-    "require": {}
+    "require": {
+      "php": "7.2.*"
+    }
 }
