@@ -1,12 +1,11 @@
 <?php
+require __DIR__ .'/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 
 class TaskTests extends TestCase
 {
     public function testGetNextStatus() {
-        require __DIR__ . "/../php/Task.php";
-
         $model = new Task(1, 1, 'new');
         $this->assertEquals('canceled', $model->getNextStatus('cancel'));
 
