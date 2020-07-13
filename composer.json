@@ -14,10 +14,10 @@
     ],
     "autoload": {
       "classmap": [
-        "src/models/Task.php"
+        "src"
       ],
       "psr-4": {
-        "211794-task-force-1\\": "src"
+        "app\\": "src"
       }
     }
 }
