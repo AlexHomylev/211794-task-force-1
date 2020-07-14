@@ -3,13 +3,19 @@
     "require-dev": {
         "phpunit/phpunit": "^8.5"
     },
-    "authors": [
-        {
-            "name": "AlexHomylev",
-            "email": "homylev2011@yandex.ru"
-        }
-    ],
     "require": {
       "php": "7.2.*"
+    },
+    "authors": [
+      {
+        "name": "AlexHomylev",
+        "email": "homylev2011@yandex.ru"
+      }
+    ],
+    "autoload": {
+      "psr-4": {
+        "src\\": "src/",
+        "models\\": "models/"
+      }
     }
 }
