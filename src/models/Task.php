@@ -1,5 +1,9 @@
 <?php
 
+namespace src\models;
+
+use ErrorException;
+
 /**
  * Class Task
  */

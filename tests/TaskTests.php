@@ -2,6 +2,7 @@
 require __DIR__ .'/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
+use src\models\Task;
 
 class TaskTests extends TestCase
 {

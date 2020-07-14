@@ -13,11 +13,9 @@
       }
     ],
     "autoload": {
-      "classmap": [
-        "src"
-      ],
       "psr-4": {
-        "app\\": "src"
+        "src\\": "src/",
+        "models\\": "models/"
       }
     }
 }
