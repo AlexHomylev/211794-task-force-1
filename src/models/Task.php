@@ -17,17 +17,17 @@ class Task
     const STATUS_FAILED = 'failed';
 
     // Аттрибуты
-    public $id_executor; // Идентификатор исполнителя
-    public $id_customer; // Идентификатор клиента
-    public $id_user; // Идентификатор пользователя
-    public $current_status; // Текущий статус
+    public $idExecutor; // Идентификатор исполнителя
+    public $idCustomer; // Идентификатор клиента
+    public $idUser; // Идентификатор пользователя
+    public $currentStatus; // Текущий статус
 
-    public function __construct($id_executor, $id_customer, $id_user, $current_status)
+    public function __construct($idExecutor, $idCustomer, $idUser, $currentStatus)
     {
-        $this->id_executor = $id_executor;
-        $this->id_customer = $id_customer;
-        $this->current_status = $current_status;
-        $this->id_user = $id_user;
+        $this->$idExecutor = $idExecutor;
+        $this->$idCustomer = $idCustomer;
+        $this->$idUser = $idUser;
+        $this->$currentStatus = $currentStatus;
     }
 
     /**
@@ -80,7 +80,7 @@ class Task
         $availableActions = null;
 
         foreach ($availableClasses as $class) {
-            if ($class->checkAccessRights($this->id_executor, $this->id_customer, $this->id_user)) {
+            if ($class->checkAccessRights($this->idExecutor, $this->idCustomer, $this->idUser)) {
                 $availableActions[] = $class;
             }
         }

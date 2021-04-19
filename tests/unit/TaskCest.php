@@ -31,8 +31,8 @@ class TaskCest
         $I->assertEquals(null, $model->getAvailableActions('failed'));
         $I->assertEquals(null, $model->getAvailableActions('canceled'));
 
-        $model->id_user = 2;
-        $model->id_executor = null;
+        $model->idUser = 2;
+        $model->idExecutor = null;
 
         $I->assertEquals([new RespondAction], $model->getAvailableActions('new'));
         $I->assertEquals(null, $model->getAvailableActions('work'));
@@ -40,8 +40,7 @@ class TaskCest
         $I->assertEquals(null, $model->getAvailableActions('failed'));
         $I->assertEquals(null, $model->getAvailableActions('canceled'));
 
-        $model->id_user = 2;
-        $model->id_executor = 2;
+        $model->idExecutor = 2;
 
         $I->assertEquals(null, $model->getAvailableActions('new'));
         $I->assertEquals([new RefuseAction], $model->getAvailableActions('work'));

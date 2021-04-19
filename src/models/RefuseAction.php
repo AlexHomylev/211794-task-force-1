@@ -14,8 +14,8 @@ class RefuseAction extends Action
         return 'refuse';
     }
 
-    public function checkAccessRights($id_executor, $id_customer, $id_user): bool
+    public function checkAccessRights($idExecutor, $idCustomer, $idUser): bool
     {
-        return $id_executor === $id_user;
+        return $idExecutor === $idUser;
     }
 }

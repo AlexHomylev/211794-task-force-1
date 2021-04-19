@@ -14,9 +14,9 @@ class RespondAction extends Action
         return 'respond';
     }
 
-    public function checkAccessRights($id_executor, $id_customer, $id_user): bool
+    public function checkAccessRights($idExecutor, $idCustomer, $idUser): bool
     {
-        if (!$id_executor && $id_customer !== $id_user) {
+        if (!$idExecutor && $idCustomer !== $idUser) {
             return true;
         }
         return false;
