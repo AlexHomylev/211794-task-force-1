@@ -4,13 +4,17 @@ namespace src\models;
 
 class CancelAction extends Action
 {
-    public function __construct()
+    public function getName()
     {
-        $this->setName('Отменить');
-        $this->setInternalName('cancel');
+        return 'Отменить';
     }
 
-    public function checkingAccessRights($id_executor, $id_customer, $id_user): bool
+    public function getInternalName()
+    {
+        return 'cancel';
+    }
+
+    public function checkAccessRights($id_executor, $id_customer, $id_user): bool
     {
         return $id_customer === $id_user;
     }

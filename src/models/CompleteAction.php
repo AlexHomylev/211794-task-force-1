@@ -4,13 +4,17 @@ namespace src\models;
 
 class CompleteAction extends Action
 {
-    public function __construct()
+    public function getName()
     {
-        $this->setName('Выполнено');
-        $this->setInternalName('сompleted');
+        return 'Выполнено';
     }
 
-    public function checkingAccessRights($id_executor, $id_customer, $id_user): bool
+    public function getInternalName()
+    {
+        return 'сompleted';
+    }
+
+    public function checkAccessRights($id_executor, $id_customer, $id_user): bool
     {
         return $id_customer === $id_user;
     }

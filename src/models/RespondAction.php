@@ -2,20 +2,23 @@
 
 namespace src\models;
 
-class RefuseAction extends Action
+class RespondAction extends Action
 {
     public function getName()
     {
-        return 'Отказаться';
+        return 'Откликнуться';
     }
 
     public function getInternalName()
     {
-        return 'refuse';
+        return 'respond';
     }
 
     public function checkAccessRights($id_executor, $id_customer, $id_user): bool
     {
-        return $id_executor === $id_user;
+        if (!$id_executor && $id_customer !== $id_user) {
+            return true;
+        }
+        return false;
     }
 }

@@ -39,7 +39,7 @@ class Task
     public function getNextStatus($action)
     {
         switch ($action) {
-            case new AbandonAction;
+            case new RespondAction;
                 return self::STATUS_WORK;
             case new CancelAction;
                 return self::STATUS_CANCELED;
@@ -64,7 +64,7 @@ class Task
 
         switch ($status) {
             case self::STATUS_NEW;
-                $availableClasses = [new AbandonAction(), new CancelAction()];
+                $availableClasses = [new RespondAction(), new CancelAction()];
                 break;
             case self::STATUS_WORK;
                 $availableClasses = [new CompleteAction(), new RefuseAction()];
@@ -80,7 +80,7 @@ class Task
         $availableActions = null;
 
         foreach ($availableClasses as $class) {
-            if ($class->checkingAccessRights($this->id_executor, $this->id_customer, $this->id_user)) {
+            if ($class->checkAccessRights($this->id_executor, $this->id_customer, $this->id_user)) {
                 $availableActions[] = $class;
             }
         }
@@ -110,7 +110,7 @@ class Task
     private static function getActionMap()
     {
         return [
-            (new AbandonAction)->getName(),
+            (new RespondAction)->getName(),
             (new CancelAction)->getName(),
             (new CompleteAction)->getName(),
             (new RefuseAction)->getName(),
