@@ -4,9 +4,24 @@ namespace src\models;
 
 abstract class Action
 {
-    abstract public function getName();
+    /**
+     * Получаем общее название действия
+     * @return string
+     */
+    abstract public function getName(): string;
 
-    abstract public function getInternalName();
+    /**
+     * Получаем внутреннее название действия
+     * @return string
+     */
+    abstract public function getInternalName(): string;
 
-    abstract public function checkAccessRights($idExecutor, $idCustomer, $idUser);
+    /**
+     * Проверяем доступность действия
+     * @param int|null $idExecutor
+     * @param int|null $idCustomer
+     * @param int|null $idUser
+     * @return bool
+     */
+    abstract public function checkAccessRights(?int $idExecutor, ?int $idCustomer, ?int $idUser): bool;
 }

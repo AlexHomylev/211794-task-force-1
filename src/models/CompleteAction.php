@@ -4,17 +4,17 @@ namespace src\models;
 
 class CompleteAction extends Action
 {
-    public function getName()
+    public function getName(): string
     {
         return 'Выполнено';
     }
 
-    public function getInternalName()
+    public function getInternalName(): string
     {
         return 'сompleted';
     }
 
-    public function checkAccessRights($idExecutor, $idCustomer, $idUser): bool
+    public function checkAccessRights(?int $idExecutor, ?int $idCustomer, ?int $idUser): bool
     {
         return $idCustomer === $idUser;
     }

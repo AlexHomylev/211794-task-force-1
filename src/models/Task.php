@@ -2,7 +2,8 @@
 
 namespace src\models;
 
-use ErrorException;
+use src\exceptions\NotFoundAction;
+use src\exceptions\NotFoundStatus;
 
 /**
  * Class Task
@@ -22,7 +23,7 @@ class Task
     public $idUser; // Идентификатор пользователя
     public $currentStatus; // Текущий статус
 
-    public function __construct($idExecutor, $idCustomer, $idUser, $currentStatus)
+    public function __construct(?int $idExecutor, ?int $idCustomer, ?int $idUser, string $currentStatus)
     {
         $this->$idExecutor = $idExecutor;
         $this->$idCustomer = $idCustomer;
@@ -32,11 +33,11 @@ class Task
 
     /**
      * Получаем следующий статус после выполнения указанного действия.
-     * @param $action
+     * @param Action $action
      * @return string
-     * @throws ErrorException
+     * @throws NotFoundAction
      */
-    public function getNextStatus($action)
+    public function getNextStatus(Action $action): ?string
     {
         switch ($action) {
             case new RespondAction;
@@ -48,17 +49,17 @@ class Task
             case new RefuseAction;
                 return self::STATUS_FAILED;
             default;
-                throw new ErrorException('Nonexistent action', 422);
+                throw new NotFoundAction('Nonexistent action', 422);
         }
     }
 
     /**
      * Получаем доступные действия для указанного статуса.
-     * @param $status
+     * @param string $status
      * @return string[]|null
-     * @throws ErrorException
+     * @throws NotFoundStatus
      */
-    public function getAvailableActions($status): ?array
+    public function getAvailableActions(string $status): ?array
     {
         $availableClasses = [];
 
@@ -74,7 +75,7 @@ class Task
             case self::STATUS_CANCELED;
                 return null;
             default;
-                throw new ErrorException('Nonexistent status', 422);
+                throw new NotFoundStatus('Nonexistent status', 422);
         }
 
         $availableActions = null;
@@ -92,7 +93,7 @@ class Task
      * Получаем карту статусов.
      * @return string[]
      */
-    private static function getStatusMap()
+    private static function getStatusMap(): array
     {
         return [
             self::STATUS_NEW => 'Новое',
@@ -107,7 +108,7 @@ class Task
      * Получаем карту действий.
      * @return string[]
      */
-    private static function getActionMap()
+    private static function getActionMap(): array
     {
         return [
             (new RespondAction)->getName(),

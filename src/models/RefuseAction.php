@@ -4,17 +4,17 @@ namespace src\models;
 
 class RefuseAction extends Action
 {
-    public function getName()
+    public function getName(): string
     {
         return 'Отказаться';
     }
 
-    public function getInternalName()
+    public function getInternalName(): string
     {
         return 'refuse';
     }
 
-    public function checkAccessRights($idExecutor, $idCustomer, $idUser): bool
+    public function checkAccessRights(?int $idExecutor, ?int $idCustomer, ?int $idUser): bool
     {
         return $idExecutor === $idUser;
     }
