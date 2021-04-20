@@ -16,22 +16,18 @@ class Task
     const STATUS_PERFORMED = 'performed';
     const STATUS_FAILED = 'failed';
 
-    // Действия
-    const ACTION_CANCEL = 'cancel';
-    const ACTION_ABANDON = 'abandon';
-    const ACTION_RESPOND = 'respond';
-    const ACTION_COMPLETED = 'completed';
-
     // Аттрибуты
-    public $id_executor;
-    public $id_customer;
-    public $current_status;
+    public $idExecutor; // Идентификатор исполнителя
+    public $idCustomer; // Идентификатор клиента
+    public $idUser; // Идентификатор пользователя
+    public $currentStatus; // Текущий статус
 
-    public function __construct($id_executor, $id_customer, $current_status)
+    public function __construct($idExecutor, $idCustomer, $idUser, $currentStatus)
     {
-        $this->id_executor = $id_executor;
-        $this->id_customer = $id_customer;
-        $this->current_status = $current_status;
+        $this->$idExecutor = $idExecutor;
+        $this->$idCustomer = $idCustomer;
+        $this->$idUser = $idUser;
+        $this->$currentStatus = $currentStatus;
     }
 
     /**
@@ -40,15 +36,16 @@ class Task
      * @return string
      * @throws ErrorException
      */
-    public function getNextStatus($action) {
+    public function getNextStatus($action)
+    {
         switch ($action) {
-            case self::ACTION_ABANDON;
+            case new RespondAction;
                 return self::STATUS_WORK;
-            case self::ACTION_CANCEL;
+            case new CancelAction;
                 return self::STATUS_CANCELED;
-            case self::ACTION_COMPLETED;
+            case new CompleteAction;
                 return self::STATUS_PERFORMED;
-            case self::ACTION_RESPOND;
+            case new RefuseAction;
                 return self::STATUS_FAILED;
             default;
                 throw new ErrorException('Nonexistent action', 422);
@@ -61,28 +58,42 @@ class Task
      * @return string[]|null
      * @throws ErrorException
      */
-    public function getAvailableActions($status) {
+    public function getAvailableActions($status): ?array
+    {
+        $availableClasses = [];
+
         switch ($status) {
             case self::STATUS_NEW;
-                return [self::ACTION_ABANDON, self::ACTION_CANCEL];
+                $availableClasses = [new RespondAction(), new CancelAction()];
+                break;
             case self::STATUS_WORK;
-                return [self::ACTION_COMPLETED, self::ACTION_RESPOND];
+                $availableClasses = [new CompleteAction(), new RefuseAction()];
+                break;
+            case self::STATUS_PERFORMED:
+            case self::STATUS_FAILED:
             case self::STATUS_CANCELED;
-                return null;
-            case self::STATUS_PERFORMED;
-                return null;
-            case self::STATUS_FAILED;
                 return null;
             default;
                 throw new ErrorException('Nonexistent status', 422);
         }
+
+        $availableActions = null;
+
+        foreach ($availableClasses as $class) {
+            if ($class->checkAccessRights($this->idExecutor, $this->idCustomer, $this->idUser)) {
+                $availableActions[] = $class;
+            }
+        }
+
+        return $availableActions;
     }
 
     /**
      * Получаем карту статусов.
      * @return string[]
      */
-    private static function getStatusMap() {
+    private static function getStatusMap()
+    {
         return [
             self::STATUS_NEW => 'Новое',
             self::STATUS_WORK => 'В работе',
@@ -96,12 +107,13 @@ class Task
      * Получаем карту действий.
      * @return string[]
      */
-    private static function getActionMap() {
+    private static function getActionMap()
+    {
         return [
-            self::ACTION_ABANDON => 'Откликнуться',
-            self::ACTION_CANCEL => 'Отменить',
-            self::ACTION_COMPLETED => 'Выполнено',
-            self::ACTION_RESPOND => 'Отказаться',
+            (new RespondAction)->getName(),
+            (new CancelAction)->getName(),
+            (new CompleteAction)->getName(),
+            (new RefuseAction)->getName(),
         ];
     }
 
