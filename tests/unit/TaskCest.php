@@ -2,6 +2,8 @@
 require __DIR__ . '../../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
+use src\exceptions\NotFoundAction;
+use src\exceptions\NotFoundStatus;
 use src\models\RespondAction;
 use src\models\CancelAction;
 use src\models\CompleteAction;
@@ -17,7 +19,7 @@ class TaskCest
 
         $I->assertEquals($model::STATUS_PERFORMED, $model->getNextStatus(new CompleteAction));
 
-        $I->expectThrowable(ErrorException::class, function() use ($model) {
+        $I->expectThrowable(TypeError::class, function() use ($model) {
             $model->getNextStatus('Hello!');
         });
     }
@@ -48,8 +50,8 @@ class TaskCest
         $I->assertEquals(null, $model->getAvailableActions('failed'));
         $I->assertEquals(null, $model->getAvailableActions('canceled'));
 
-        $I->expectThrowable(ErrorException::class, function() use ($model) {
-            $model->getNextStatus('Hello!');
+        $I->expectThrowable(NotFoundStatus::class, function() use ($model) {
+            $model->getAvailableActions('Hello!');
         });
     }
 }

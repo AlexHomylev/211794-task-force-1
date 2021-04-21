@@ -4,17 +4,17 @@ namespace src\models;
 
 class CancelAction extends Action
 {
-    public function getName()
+    public function getName(): string
     {
         return 'Отменить';
     }
 
-    public function getInternalName()
+    public function getInternalName(): string
     {
         return 'cancel';
     }
 
-    public function checkAccessRights($idExecutor, $idCustomer, $idUser): bool
+    public function checkAccessRights(?int $idExecutor, ?int $idCustomer, ?int $idUser): bool
     {
         return $idCustomer === $idUser;
     }

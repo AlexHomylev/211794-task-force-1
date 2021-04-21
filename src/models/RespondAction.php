@@ -4,17 +4,17 @@ namespace src\models;
 
 class RespondAction extends Action
 {
-    public function getName()
+    public function getName(): string
     {
         return 'Откликнуться';
     }
 
-    public function getInternalName()
+    public function getInternalName(): string
     {
         return 'respond';
     }
 
-    public function checkAccessRights($idExecutor, $idCustomer, $idUser): bool
+    public function checkAccessRights(?int $idExecutor, ?int $idCustomer, ?int $idUser): bool
     {
         if (!$idExecutor && $idCustomer !== $idUser) {
             return true;
